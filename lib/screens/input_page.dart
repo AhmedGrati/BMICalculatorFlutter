@@ -1,4 +1,5 @@
 import 'file:///C:/Users/Ahmed/Desktop/src/Projects/bmi_calculator/lib/components/rounded_button.dart';
+import 'package:bmi_calculator/calculator_brain.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -209,9 +210,14 @@ class _InputPageState extends State<InputPage> {
           ),
           BottomButton(
             onTap:  () {
+              CalculatorBrain calc = CalculatorBrain(height: heightValue , weight: weightValue);
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) {
-                    return ResultPage();
+                    return ResultPage(
+                      bmiResult: calc.calculateBMI(),
+                      result: calc.getResult(),
+                      interpretation: calc.getInterpretation(),
+                    );
                   })
               );
             },
