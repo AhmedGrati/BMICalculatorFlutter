@@ -3,9 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'card_box.dart';
 import 'icon_content.dart';
 import 'gender.dart';
-const activeCardColor = Color(0xFF1D1E33);
-const inactiveCardColor = Color(0xFF111328);
-const bottomColor = Color(0xFFEB1555);
+import 'constants.dart';
 
 class InputPage extends StatefulWidget {
   @override
@@ -14,27 +12,8 @@ class InputPage extends StatefulWidget {
 
 class _InputPageState extends State<InputPage> {
 
-  Color maleCardColor =  inactiveCardColor;
-  Color femaleCardColor =  inactiveCardColor;
-//  Color femaleCardColor =  Color(0xFF1D1E33);
-
-  void changeCardColor(Gender gender) {
-    if(gender == Gender.male) {
-      if(maleCardColor == inactiveCardColor) {
-        maleCardColor = activeCardColor;
-        femaleCardColor = inactiveCardColor;
-      }else{
-        maleCardColor = inactiveCardColor;
-      }
-    }else{
-      if(femaleCardColor == inactiveCardColor) {
-        femaleCardColor = activeCardColor;
-        maleCardColor = inactiveCardColor;
-      }else{
-        femaleCardColor = inactiveCardColor;
-      }
-    }
-  }
+  Gender selectedGender;
+  int heightValue = 180;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -44,62 +23,103 @@ class _InputPageState extends State<InputPage> {
             child: Row(
               children: <Widget>[
                 Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          changeCardColor(Gender.male);
-                        });
-                      },
                       child: CardBox(
-                        colour: maleCardColor,
+                        onPress: () {
+                          setState(() {
+                            selectedGender = Gender.male;
+                          });
+                        },
+                        colour: selectedGender == Gender.male ? kActiveCardColor : kInactiveCardColor,
                         cardChild: IconContent(
                           iconData: FontAwesomeIcons.mars,
                           content: 'Male',
                         )
                       ),
-                    )
                 ),
                 Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          changeCardColor(Gender.female);
-                        });
-                      },
                       child: CardBox(
-                        colour: femaleCardColor,
+                        onPress: () {
+                          setState(() {
+                            selectedGender = Gender.female;
+                          });
+                        },
+                        colour: selectedGender == Gender.female ? kActiveCardColor : kInactiveCardColor,
                         cardChild: IconContent(
                           iconData: FontAwesomeIcons.venus,
                           content: 'Female',
                         ),
                       ),
-                    )
                 )
               ],
             ),
           ),
-          Expanded(child: CardBox(
-            colour: inactiveCardColor,
+          Expanded(
+              child: CardBox(
+              colour: kInactiveCardColor,
+                cardChild: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text('Height',
+                      style: kIconContentTextStyle
+                    ),
+                    SizedBox(height: 10.0,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.baseline,
+                      textBaseline: TextBaseline.alphabetic,
+                      children: <Widget>[
+                        Text(heightValue.toString() ,
+                          style: kIconContentTextStyle,
+                        ),
+
+                        Text('CM' ,
+                          style:kCentimeterStyle
+                        )
+                      ],
+                    ),
+                    SizedBox(height: 10.0,),
+                    SliderTheme(
+                      data:SliderTheme.of(context).copyWith(
+                        inactiveTrackColor: Color(0xFF8D8E98),
+                        activeTrackColor: Colors.white,
+                        thumbColor: Color(0xFFEB1555),
+                        overlayColor: Color(0x29EB1555),
+                        thumbShape: RoundSliderThumbShape(enabledThumbRadius: 15.0),
+                        overlayShape: RoundSliderOverlayShape(overlayRadius: 30.0),
+                      ),
+                      child:
+                        Slider(
+                        value: heightValue.toDouble(),
+                        min: 120.0,
+                        max: 220.0,
+                        onChanged: (double value) {
+                          setState(() {
+                            heightValue = value.round();
+                          });
+                        },
+                      ),
+                    )
+                  ],
+              ),
           )),
           Expanded(
             child: Row(
               children: <Widget>[
                 Expanded(child: CardBox(
-                  colour: inactiveCardColor,
+                  colour: kInactiveCardColor,
                 )),
                 Expanded(child: CardBox(
-                  colour: inactiveCardColor,
+                  colour: kInactiveCardColor,
                 ))
               ],
             ),
           ),
-          Expanded(
-            child: Container(
+          Container(
+              height: kBottomHeight,
               decoration: BoxDecoration(
-                  color: bottomColor
+                  color: kBottomColor
               ),
             ),
-          )
         ],
       ),
     );
