@@ -1,12 +1,13 @@
-import 'package:bmi_calculator/rounded_button.dart';
+import 'file:///C:/Users/Ahmed/Desktop/src/Projects/bmi_calculator/lib/components/rounded_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'card_box.dart';
-import 'icon_content.dart';
-import 'gender.dart';
-import 'constants.dart';
-import 'result_page.dart';
+import '../components/card_box.dart';
+import 'package:bmi_calculator/components/icon_content.dart';
+import '../gender.dart';
+import '../constants.dart';
+import 'package:bmi_calculator/screens/result_page.dart';
+import '../components/bottom_button.dart';
 class InputPage extends StatefulWidget {
   @override
   _InputPageState createState() => _InputPageState();
@@ -206,22 +207,15 @@ class _InputPageState extends State<InputPage> {
               ],
             ),
           ),
-          GestureDetector(
-            onTap: () {
+          BottomButton(
+            onTap:  () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) {
                     return ResultPage();
                   })
               );
             },
-            child: Container(
-              width: double.infinity,
-              child: Text('Calculate' , textAlign: TextAlign.center,),
-                height: kBottomHeight,
-                decoration: BoxDecoration(
-                    color: kBottomColor
-                ),
-              ),
+            title: 'Calculate',
           ),
         ],
       ),
