@@ -1,10 +1,12 @@
+import 'package:bmi_calculator/rounded_button.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'card_box.dart';
 import 'icon_content.dart';
 import 'gender.dart';
 import 'constants.dart';
-
+import 'result_page.dart';
 class InputPage extends StatefulWidget {
   @override
   _InputPageState createState() => _InputPageState();
@@ -14,6 +16,8 @@ class _InputPageState extends State<InputPage> {
 
   Gender selectedGender;
   int heightValue = 180;
+  int weightValue = 60;
+  int ageValue = 16;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -106,20 +110,119 @@ class _InputPageState extends State<InputPage> {
             child: Row(
               children: <Widget>[
                 Expanded(child: CardBox(
+                  cardChild: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text('Weight' ,
+                        style: kIconContentTextStyle,
+                      ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.baseline,
+                        textBaseline: TextBaseline.alphabetic,
+                        children: <Widget>[
+                          Text(
+                            weightValue.toString(),
+                            style: kIconContentTextStyle,
+                          ),
+                          Text('KG' , style: kCentimeterStyle,)
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          RoundedButton(
+                            onPress: () {
+                              setState(() {
+                                weightValue--;
+                              });
+                            },
+                            iconData: FontAwesomeIcons.minus,
+                          ),
+                          SizedBox(width: 10.0,),
+                          RoundedButton(
+                            onPress: () {
+                              setState(() {
+                                weightValue++;
+                              });
+                            },
+                            iconData: FontAwesomeIcons.plus,
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
                   colour: kInactiveCardColor,
                 )),
                 Expanded(child: CardBox(
+                  cardChild: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text('Age' ,
+                        style: kIconContentTextStyle,
+                      ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      Text(
+                        ageValue.toString(),
+                        style: kIconContentTextStyle,
+                      ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          RoundedButton(
+                            onPress: () {
+                              setState(() {
+                                ageValue--;
+                              });
+                            },
+                            iconData: FontAwesomeIcons.minus,
+                          ),
+                          SizedBox(width: 10.0,),
+                          RoundedButton(
+                            onPress: () {
+                              setState(() {
+                                ageValue++;
+                              });
+                            },
+                            iconData: FontAwesomeIcons.plus,
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
                   colour: kInactiveCardColor,
-                ))
+                )),
               ],
             ),
           ),
-          Container(
-              height: kBottomHeight,
-              decoration: BoxDecoration(
-                  color: kBottomColor
+          GestureDetector(
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) {
+                    return ResultPage();
+                  })
+              );
+            },
+            child: Container(
+              width: double.infinity,
+              child: Text('Calculate' , textAlign: TextAlign.center,),
+                height: kBottomHeight,
+                decoration: BoxDecoration(
+                    color: kBottomColor
+                ),
               ),
-            ),
+          ),
         ],
       ),
     );
